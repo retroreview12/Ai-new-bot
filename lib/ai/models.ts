@@ -1,11 +1,11 @@
-export const DEFAULT_CHAT_MODEL = "stealth/glyph-cluster";
+export const DEFAULT_CHAT_MODEL = "inclusionai/ling-3.1-flash-free";
 
 export const titleModel = {
   description: "Free model for title generation",
-  gatewayOrder: ["stealth"],
-  id: "stealth/glyph-cluster",
-  name: "Glyph Cluster (Free)",
-  provider: "stealth",
+  gatewayOrder: ["novita"],
+  id: "inclusionai/ling-3.1-flash-free",
+  name: "Ling 3.1 Flash (Free)",
+  provider: "inclusionai",
 };
 
 export type ModelCapabilities = {
@@ -26,10 +26,10 @@ export type ChatModel = {
 export const chatModels: ChatModel[] = [
   {
     description: "Free model; if unavailable, requests fail rather than switching to a paid model.",
-    gatewayOrder: ["stealth"],
-    id: "stealth/glyph-cluster",
-    name: "Glyph Cluster (Free)",
-    provider: "stealth",
+    gatewayOrder: ["novita"],
+    id: "inclusionai/ling-3.1-flash-free",
+    name: "Ling 3.1 Flash (Free)",
+    provider: "inclusionai",
   },
 ];
 
