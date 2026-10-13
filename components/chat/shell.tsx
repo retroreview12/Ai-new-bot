@@ -19,6 +19,7 @@ import {
   useArtifactSelector,
 } from "@/hooks/use-artifact";
 import type { Attachment, ChatMessage } from "@/lib/types";
+import type { CompanionProfile } from "@/lib/companion/profile";
 import { cn } from "@/lib/utils";
 import { Artifact } from "./artifact";
 import { ChatHeader } from "./chat-header";
@@ -27,7 +28,7 @@ import { submitEditedMessage } from "./message-editor";
 import { Messages } from "./messages";
 import { MultimodalInput } from "./multimodal-input";
 
-export function ChatShell() {
+export function ChatShell({ companionProfile }: { companionProfile: CompanionProfile }) {
   const pathname = usePathname();
   const {
     chatId,
@@ -132,6 +133,7 @@ export function ChatShell() {
 
           <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-background md:rounded-tl-[12px] md:border-t md:border-l md:border-border/40">
             <Messages
+              companionProfile={companionProfile}
               addToolApprovalResponse={addToolApprovalResponse}
               chatId={chatId}
               isArtifactVisible={isArtifactVisible}
