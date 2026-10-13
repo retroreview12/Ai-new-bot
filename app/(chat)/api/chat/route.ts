@@ -296,7 +296,7 @@ export async function POST(request: Request) {
           },
           providerOptions: {
             ...(modelConfig?.gatewayOrder && {
-              gateway: { order: modelConfig.gatewayOrder },
+              gateway: { only: modelConfig.gatewayOrder },
             }),
             ...(modelConfig?.reasoningEffort && {
               openai: { reasoningEffort: modelConfig.reasoningEffort },
