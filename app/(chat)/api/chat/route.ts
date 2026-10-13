@@ -21,6 +21,8 @@ import {
   getModelAvailability,
 } from "@/lib/ai/models";
 import { type RequestHints, systemPrompt } from "@/lib/ai/prompts";
+import { buildCompanionInstructions } from "@/lib/companion/profile";
+import { getCompanionProfile } from "@/lib/companion/store";
 import { getLanguageModel } from "@/lib/ai/providers";
 import { createDocument } from "@/lib/ai/tools/create-document";
 import { editDocument } from "@/lib/ai/tools/edit-document";
@@ -93,6 +95,8 @@ export async function POST(request: Request) {
     if (!session?.user) {
       return new ChatbotError("unauthorized:chat").toResponse();
     }
+
+    const companionProfile = await getCompanionProfile(session.user.id).catch(() => null);
 
     const chatModel = allowedModelIds.has(selectedChatModel)
       ? selectedChatModel
@@ -277,7 +281,7 @@ export async function POST(request: Request) {
                   "updateDocument",
                   "requestSuggestions",
                 ],
-          instructions: systemPrompt({ requestHints, supportsTools }),
+          instructions: `${systemPrompt({ requestHints, supportsTools })}\n\n${companionProfile ? buildCompanionInstructions(companionProfile) : "Companion profile unavailable; use the standard assistant behavior."}`,
           messages: modelMessages,
           model: getLanguageModel(chatModel),
           onAbort() {
