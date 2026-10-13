@@ -61,6 +61,27 @@ export default async function CompanionSettingsPage({
             <label className={labelClass}>Personality and voice
               <textarea className={inputClass} name="tone" rows={3} maxLength={1500} defaultValue={profile.tone} />
             </label>
+            <h3 className="text-base font-semibold">How we connect</h3>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className={labelClass}>When I need support
+                <select className={inputClass} name="supportStyle" defaultValue={profile.supportStyle}>
+                  <option value="adaptive">Adapt to my mood</option><option value="listen">Mostly listen</option><option value="reflect">Help me understand my feelings</option><option value="solutions">Offer practical ideas</option>
+                </select>
+              </label>
+              <label className={labelClass}>Connection style
+                <select className={inputClass} name="connectionStyle" defaultValue={profile.connectionStyle}>
+                  <option value="balanced">A mix of everything</option><option value="friendship">Close friendship</option><option value="romantic">Romantic and affectionate</option><option value="exploration">Deep mental exploration</option>
+                </select>
+              </label>
+              <label className={labelClass}>When something feels difficult
+                <select className={inputClass} name="checkInPreference" defaultValue={profile.checkInPreference}>
+                  <option value="gentle">Respond gently</option><option value="ask">Ask what I need</option><option value="direct">Be clear and direct</option>
+                </select>
+              </label>
+            </div>
+            <label className={labelClass}>What helps me feel understood
+              <textarea className={inputClass} name="selfDescription" rows={3} maxLength={2000} defaultValue={profile.selfDescription} placeholder="Share only what you want your companion to know…" />
+            </label>
           </section>
           <section className="space-y-4 rounded-2xl border border-border bg-card p-4 sm:p-6">
             <h2 className="text-lg font-semibold">Character and setting</h2>
