@@ -7,6 +7,8 @@ import { DataStreamProvider } from "@/components/chat/data-stream-provider";
 import { ChatShell } from "@/components/chat/shell";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { ActiveChatProvider } from "@/hooks/use-active-chat";
+import { getCompanionProfile } from "@/lib/companion/store";
+import { defaultCompanionProfile } from "@/lib/companion/profile";
 import { auth } from "../(auth)/auth";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -28,6 +30,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 async function SidebarShell({ children }: { children: React.ReactNode }) {
   const [session, cookieStore] = await Promise.all([auth(), cookies()]);
   const isCollapsed = cookieStore.get("sidebar_state")?.value !== "true";
+  const companionProfile = session?.user?.id
+    ? await getCompanionProfile(session.user.id).catch(() => defaultCompanionProfile)
+    : defaultCompanionProfile;
 
   return (
     <SidebarProvider defaultOpen={!isCollapsed}>
@@ -43,7 +48,7 @@ async function SidebarShell({ children }: { children: React.ReactNode }) {
         />
         <Suspense fallback={<div className="flex h-dvh" />}>
           <ActiveChatProvider>
-            <ChatShell />
+            <ChatShell companionProfile={companionProfile} />
           </ActiveChatProvider>
         </Suspense>
         {children}
