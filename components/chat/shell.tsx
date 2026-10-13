@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,6 +28,7 @@ import { Messages } from "./messages";
 import { MultimodalInput } from "./multimodal-input";
 
 export function ChatShell() {
+  const pathname = usePathname();
   const {
     chatId,
     messages,
@@ -109,6 +111,9 @@ export function ChatShell() {
     );
     window.location.href = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/`;
   }, []);
+
+  // Keep the persistent chat mounted but never show it over companion settings.
+  if (pathname.startsWith("/settings")) return null;
 
   return (
     <>
