@@ -2,6 +2,7 @@
 import type { UseChatHelpers } from "@ai-sdk/react";
 import { useCallback } from "react";
 import type { Vote } from "@/lib/db/schema";
+import type { CompanionProfile } from "@/lib/companion/profile";
 import type { ChatMessage } from "@/lib/types";
 import { cn, sanitizeText } from "@/lib/utils";
 import { MessageContent, MessageResponse } from "../ai-elements/message";
@@ -16,11 +17,24 @@ import {
 import { useDataStream } from "./data-stream-provider";
 import { DocumentToolResult } from "./document";
 import { DocumentPreview } from "./document-preview";
-import { SparklesIcon } from "./icons";
 import { MessageActions } from "./message-actions";
 import { MessageReasoning } from "./message-reasoning";
 import { PreviewAttachment } from "./preview-attachment";
 import { Weather } from "./weather";
+
+function CompanionAvatar({ profile }: { profile: CompanionProfile }) {
+  const name = profile.characterName.trim() || "Your companion";
+  const avatarUrl = /^https:\/\//i.test(profile.avatarUrl) ? profile.avatarUrl : "";
+  return (
+    <div aria-label={name} className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-violet-500/30 bg-violet-500/10 text-sm font-semibold text-violet-300">
+      {avatarUrl ? (
+        <img alt={`${name} avatar`} className="size-full object-cover" referrerPolicy="no-referrer" src={avatarUrl} />
+      ) : (
+        name.slice(0, 1).toUpperCase()
+      )}
+    </div>
+  );
+}
 
 function WaitingText() {
   const { waitingStatus } = useDataStream();
@@ -85,6 +99,7 @@ const PurePreviewMessage = ({
   addToolApprovalResponse,
   chatId,
   message,
+  companionProfile,
   vote,
   isLoading,
   setMessages: _setMessages,
@@ -96,6 +111,7 @@ const PurePreviewMessage = ({
   addToolApprovalResponse: UseChatHelpers<ChatMessage>["addToolApprovalResponse"];
   chatId: string;
   message: ChatMessage;
+  companionProfile: CompanionProfile;
   vote: Vote | undefined;
   isLoading: boolean;
   setMessages: UseChatHelpers<ChatMessage>["setMessages"];
@@ -376,15 +392,12 @@ const PurePreviewMessage = ({
           isUser ? "flex flex-col items-end gap-2" : "flex items-start gap-3"
         )}
       >
-        {isAssistant && (
-          <div className="flex h-[calc(13px*1.65)] shrink-0 items-center">
-            <div className="flex size-7 items-center justify-center rounded-lg bg-muted/60 text-muted-foreground ring-1 ring-border/50">
-              <SparklesIcon size={13} />
-            </div>
-          </div>
-        )}
+        {isAssistant && <CompanionAvatar profile={companionProfile} />}
         {isAssistant ? (
-          <div className="flex min-w-0 flex-1 flex-col gap-2">{content}</div>
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
+            <span className="text-xs font-semibold text-violet-400">{companionProfile.characterName.trim() || "Your companion"}</span>
+            {content}
+          </div>
         ) : (
           content
         )}
@@ -395,20 +408,14 @@ const PurePreviewMessage = ({
 
 export const PreviewMessage = PurePreviewMessage;
 
-export const ThinkingMessage = () => (
-  <div
-    className="group/message w-full"
-    data-role="assistant"
-    data-testid="message-assistant-loading"
-  >
+export const ThinkingMessage = ({ companionProfile }: { companionProfile: CompanionProfile }) => (
+  <div className="group/message w-full" data-role="assistant" data-testid="message-assistant-loading">
     <div className="flex items-start gap-3">
-      <div className="flex h-[calc(13px*1.65)] shrink-0 items-center">
-        <div className="flex size-7 items-center justify-center rounded-lg bg-muted/60 text-muted-foreground ring-1 ring-border/50">
-          <SparklesIcon size={13} />
-        </div>
+      <CompanionAvatar profile={companionProfile} />
+      <div className="flex min-w-0 flex-1 flex-col gap-2">
+        <span className="text-xs font-semibold text-violet-400">{companionProfile.characterName.trim() || "Your companion"}</span>
+        <WaitingText />
       </div>
-
-      <WaitingText />
     </div>
   </div>
 );
