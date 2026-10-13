@@ -5,8 +5,6 @@ import { defaultCompanionProfile } from "@/lib/companion/profile";
 import { getCompanionProfile } from "@/lib/companion/store";
 import { saveSettings } from "./actions";
 
-export const dynamic = "force-dynamic";
-
 export default async function CompanionSettingsPage({
   searchParams,
 }: {
