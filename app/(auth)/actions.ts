@@ -26,7 +26,7 @@ export const login = async (
     });
 
     await signIn("credentials", {
-      email: validatedData.email,
+      email: validatedData.email.trim().toLowerCase(),
       password: validatedData.password,
       redirect: false,
     });
@@ -61,14 +61,14 @@ export const register = async (
       password: formData.get("password"),
     });
 
-    const [user] = await getUser(validatedData.email);
+    const [user] = await getUser(validatedData.email.trim().toLowerCase());
 
     if (user) {
       return { status: "user_exists" } as RegisterActionState;
     }
-    await createUser(validatedData.email, validatedData.password);
+    await createUser(validatedData.email.trim().toLowerCase(), validatedData.password);
     await signIn("credentials", {
-      email: validatedData.email,
+      email: validatedData.email.trim().toLowerCase(),
       password: validatedData.password,
       redirect: false,
     });
