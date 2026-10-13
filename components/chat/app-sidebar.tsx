@@ -131,6 +131,14 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                     <span className="font-medium">New chat</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild className="h-8 rounded-lg text-[13px] text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground" tooltip="Companion Studio">
+                    <Link href="/settings" onClick={closeMobile}>
+                      <MessageSquareIcon className="size-4" />
+                      <span className="font-medium">Companion studio</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
                 {user ? (
                   <SidebarMenuItem>
                     <SidebarMenuButton
