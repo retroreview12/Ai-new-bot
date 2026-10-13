@@ -23,6 +23,10 @@ export async function saveSettings(formData: FormData) {
     scenario: formData.get("scenario"),
     avatarUrl: formData.get("avatarUrl"),
     memoryNotes: formData.get("memoryNotes"),
+    supportStyle: formData.get("supportStyle"),
+    connectionStyle: formData.get("connectionStyle"),
+    checkInPreference: formData.get("checkInPreference"),
+    selfDescription: formData.get("selfDescription"),
   });
 
   if (!ageConfirmed) {
