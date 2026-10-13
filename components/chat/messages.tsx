@@ -3,6 +3,7 @@ import { ArrowDownIcon } from "lucide-react";
 import { useCallback, useEffect, useRef } from "react";
 import { useMessages } from "@/hooks/use-messages";
 import type { Vote } from "@/lib/db/schema";
+import type { CompanionProfile } from "@/lib/companion/profile";
 import type { ChatMessage } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useDataStream } from "./data-stream-provider";
@@ -10,6 +11,7 @@ import { Greeting } from "./greeting";
 import { PreviewMessage, ThinkingMessage } from "./message";
 
 type MessagesProps = {
+  companionProfile: CompanionProfile;
   addToolApprovalResponse: UseChatHelpers<ChatMessage>["addToolApprovalResponse"];
   chatId: string;
   status: UseChatHelpers<ChatMessage>["status"];
@@ -25,6 +27,7 @@ type MessagesProps = {
 };
 
 function PureMessages({
+  companionProfile,
   addToolApprovalResponse,
   chatId,
   status,
@@ -81,6 +84,7 @@ function PureMessages({
         <div className="mx-auto flex min-h-full min-w-0 max-w-4xl flex-col gap-5 px-2 py-6 md:gap-7 md:px-4">
           {messages.map((message, index) => (
             <PreviewMessage
+              companionProfile={companionProfile}
               addToolApprovalResponse={addToolApprovalResponse}
               chatId={chatId}
               isLoading={
@@ -104,7 +108,7 @@ function PureMessages({
           ))}
 
           {status === "submitted" && messages.at(-1)?.role !== "assistant" && (
-            <ThinkingMessage />
+            <ThinkingMessage companionProfile={companionProfile} />
           )}
 
           <div
