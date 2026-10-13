@@ -1,11 +1,11 @@
-export const DEFAULT_CHAT_MODEL = "inclusionai/ling-3.1-flash-free";
+export const DEFAULT_CHAT_MODEL = "google/gemini-2.5-flash-lite";
 
 export const titleModel = {
-  description: "Free model for title generation",
-  gatewayOrder: ["novita"],
-  id: "inclusionai/ling-3.1-flash-free",
-  name: "Ling 3.1 Flash (Free)",
-  provider: "inclusionai",
+  description: "Uses included AI Gateway free-tier credits for title generation",
+  gatewayOrder: ["google"],
+  id: "google/gemini-2.5-flash-lite",
+  name: "Gemini 2.5 Flash Lite (Free credits)",
+  provider: "google",
 };
 
 export type ModelCapabilities = {
@@ -25,11 +25,11 @@ export type ChatModel = {
 
 export const chatModels: ChatModel[] = [
   {
-    description: "Free model; if unavailable, requests fail rather than switching to a paid model.",
-    gatewayOrder: ["novita"],
-    id: "inclusionai/ling-3.1-flash-free",
-    name: "Ling 3.1 Flash (Free)",
-    provider: "inclusionai",
+    description: "Uses Vercel monthly free AI Gateway credits; no automatic fallback to another model.",
+    gatewayOrder: ["google"],
+    id: "google/gemini-2.5-flash-lite",
+    name: "Gemini 2.5 Flash Lite (Free credits)",
+    provider: "google",
   },
 ];
 
